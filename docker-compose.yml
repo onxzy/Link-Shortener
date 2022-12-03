@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  node-links:
+    build: .
+    ports:
+      - "8001:5000"
+    environment:
+      - APPWRITE_ENDPOINT
+      - APPWRITE_PROJECT
+      - APPWRITE_APIKEY
+      - APPWRITE_DB
+      - APPWRITE_COLLECTION

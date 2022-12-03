@@ -1,0 +1,21 @@
+{
+  "name": "links",
+  "version": "1.0.0",
+  "description": "Link Shortener for onxzy.dev",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon -r dotenv/config . dotenv_config_path=../.env dotenv_config_debug=true",
+    "start": "node .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "helmet": "^6.0.1",
+    "node-appwrite": "^8.1.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.3"
+  }
+}
