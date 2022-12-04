@@ -4,6 +4,7 @@ const app = express();
 
 // MODULES
 const helmet = require('helmet');
+const { Query } = require('node-appwrite');
 const {databases} = require('./config/appwrite.config');
 
 
@@ -11,12 +12,13 @@ const {databases} = require('./config/appwrite.config');
 app.use(helmet());
 app.use('/:link_id', (req, res) => {
   console.log(req.params.link_id);
-  databases.getDocument(process.env.APPWRITE_DB, process.env.APPWRITE_COLLECTION, req.params.link_id)
+  databases.listDocuments(process.env.APPWRITE_DB, process.env.APPWRITE_COLLECTION, [Query.equal('short', req.params.link_id)])
     .then((link) => {
-      res.redirect(link.dest);
+      if (link.total == 0) res.redirect('https://l.onxzy.dev/');
+      else res.redirect(link.documents[0].dest);
     })
     .catch((err) => {
-      if (err.code == 404) res.status(404).json();
+      if (err.code == 404) res.redirect('https://l.onxzy.dev/');
       else {
         console.error(err);
         res.status(500).send();
