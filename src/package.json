@@ -11,9 +11,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@supabase/supabase-js": "^2.1.3",
     "express": "^4.18.2",
-    "helmet": "^6.0.1",
-    "node-appwrite": "^8.1.0"
+    "helmet": "^6.0.1"
   },
   "devDependencies": {
     "dotenv": "^16.0.3"

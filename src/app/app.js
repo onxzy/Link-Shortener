@@ -4,28 +4,28 @@ const app = express();
 
 // MODULES
 const helmet = require('helmet');
-const { Query } = require('node-appwrite');
-const {databases} = require('./config/appwrite.config');
+const { supabase } = require('./config/supabase');
 
 
 // SECURITE
 app.use(helmet());
 app.use('/:link_id', (req, res) => {
   console.log(req.params.link_id);
-  databases.listDocuments(process.env.APPWRITE_DB, process.env.APPWRITE_COLLECTION, [Query.equal('short', req.params.link_id)])
-    .then((link) => {
-      if (link.total == 0) res.redirect('https://links.onxzy.dev/');
-      else res.redirect(link.documents[0].dest);
-    })
-    .catch((err) => {
-      if (err.code == 404) res.redirect('https://links.onxzy.dev/');
-      else {
-        console.error(err);
-        res.status(500).send();
-      }
-    })
+  supabase
+      .from('links')
+      .select()
+      .eq('short', req.params.link_id)
+      .then(({data, error}) => {
+        if (error) {
+          console.log(error)
+          return res.status(500).send();
+        } else {
+          if (data.length == 0) res.redirect('https://links.onxzy.dev/');
+          else res.redirect(data[0].dest);
+        }
+      })
 })
-app.use('/', (req, res) => res.status(404).send());
+app.use('/', (_, res) => res.redirect('https://links.onxzy.dev/'));
 
 app.use((err, req, res, next) => {
   console.error(err);
