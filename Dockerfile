@@ -1,13 +1,13 @@
 FROM node:16.18-alpine
-COPY src /node-app
-WORKDIR /node-app
-
 ENV NODE_ENV=production
 
+WORKDIR /app
 RUN npm install -g npm
-RUN npm install
-RUN npm cache clean --force
 
-CMD ["npm", "start"]
+COPY src/package* ./
+RUN npm install --omit=dev && npm cache clean --force  
+
+COPY src .
 
 EXPOSE 5000
+CMD ["npm", "start"]
